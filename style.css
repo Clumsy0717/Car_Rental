@@ -1,0 +1,166 @@
+:root{
+  --blue:#0f3bff;
+  --blue-deep:#0a1f8f;
+  --navy:#050b3a;
+  --card:#1a4bff;
+  --white:#fff;
+  --accent:#6f8dff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:var(--blue);
+  color:var(--white);
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+img,svg{max-width:100%}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 6vw;
+  transition:background .3s, box-shadow .3s;
+}
+.nav.scrolled{background:rgba(10,31,143,.92);backdrop-filter:blur(8px);box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.logo{font-weight:800;font-size:1.5rem;display:flex;flex-direction:column;line-height:1}
+.logo span{color:var(--accent)}
+.logo small{font-size:.5rem;font-weight:400;letter-spacing:.15em;margin-top:4px;opacity:.8}
+.logo.small{font-size:1.2rem}
+.menu{display:flex;align-items:center;gap:28px;font-size:.85rem}
+.menu a{padding-bottom:4px;border-bottom:2px solid transparent;transition:.2s}
+.menu a:hover,.menu a.active{border-color:var(--white)}
+.menu .btn-outline{border:1px solid var(--accent);color:var(--accent);padding:8px 22px;border-radius:6px}
+.menu .btn-outline:hover{background:var(--accent);color:var(--navy)}
+.burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
+.burger span{width:24px;height:2px;background:#fff;display:block}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;
+  padding:150px 6vw 220px;
+  display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:20px;
+  background:radial-gradient(circle at 75% 40%, #2a58ff 0%, var(--blue) 55%);
+  /* angled bottom edge like the reference */
+  clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);
+  margin-bottom:-60px;
+}
+.eyebrow{font-size:.8rem;opacity:.9;margin-bottom:22px}
+.hero h1{font-size:clamp(2rem,4.6vw,3.6rem);font-weight:800;line-height:1.1;margin-bottom:20px;max-width:560px}
+.sub{font-size:.85rem;margin-bottom:28px;opacity:.9}
+.btn-white{
+  display:inline-block;background:#fff;color:#111;border:0;cursor:pointer;
+  padding:10px 24px;border-radius:4px;font:600 .8rem 'Plus Jakarta Sans',sans-serif;
+  transition:transform .2s, box-shadow .2s;
+}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+.hero-car{animation:float 5s ease-in-out infinite;filter:drop-shadow(0 30px 30px rgba(0,0,0,.45))}
+.hero-car svg,.hero-car img{width:100%;height:auto;display:block}
+.wheel{transform-box:fill-box;transform-origin:center;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* ---------- HOW IT WORKS ---------- */
+.how{
+  background:linear-gradient(180deg,var(--navy),var(--blue-deep));
+  padding:140px 6vw 90px;text-align:center;
+}
+h2{font-size:clamp(1.8rem,3.4vw,2.4rem);font-weight:300;margin-bottom:14px}
+.quote{font-size:.75rem;opacity:.85;margin-bottom:50px}
+.steps{display:flex;justify-content:center;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.step{width:240px}
+.icon{
+  width:64px;height:64px;margin:0 auto 18px;border-radius:14px;
+  background:rgba(255,255,255,.12);display:grid;place-items:center;
+}
+.icon svg{width:28px;height:28px;fill:#cfd8ff}
+.step h3{font-size:.95rem;margin-bottom:8px}
+.step p{font-size:.68rem;line-height:1.5;opacity:.85}
+.curve{width:110px;height:40px;margin-top:20px;border-top:1px solid rgba(255,255,255,.5);border-radius:50% 50% 0 0}
+.reveal{opacity:0;transform:translateY(24px);transition:.7s}
+.reveal.show{opacity:1;transform:none}
+
+/* ---------- COLLECTION ---------- */
+.collection{
+  background:linear-gradient(180deg,var(--blue-deep),var(--blue));
+  padding:80px 0 140px;text-align:center;position:relative;
+}
+.filters{display:flex;gap:10px;justify-content:center;margin-bottom:30px}
+.chip{
+  background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);
+  padding:6px 18px;border-radius:999px;cursor:pointer;font:600 .75rem 'Plus Jakarta Sans',sans-serif;
+}
+.chip.active,.chip:hover{background:#fff;color:var(--blue)}
+.slider-wrap{position:relative}
+.cards{
+  display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:10px 6vw 30px;scrollbar-width:none;
+}
+.cards::-webkit-scrollbar{display:none}
+.card{
+  flex:0 0 220px;scroll-snap-align:start;
+  background:var(--card);border-radius:10px;padding:18px 14px 16px;
+  box-shadow:0 14px 30px rgba(0,0,20,.35);position:relative;
+  transition:transform .25s;
+}
+.card:hover{transform:translateY(-6px)}
+.card .heart{
+  position:absolute;top:12px;right:12px;background:none;border:0;color:#fff;
+  font-size:1.1rem;cursor:pointer;
+}
+.card .heart.on{color:#ff4d5a}
+.card .thumb{height:120px;display:grid;place-items:center;margin:16px 0 10px}
+.card .thumb svg{width:100%;height:100%}
+.card h4{font-size:.9rem;margin-bottom:2px}
+.card .type{font-size:.65rem;opacity:.75;margin-bottom:12px}
+.card .row{display:flex;align-items:center;justify-content:space-between}
+.card .price{font-size:.7rem;font-weight:600}
+.card .btn-white{padding:7px 16px}
+.arrow{
+  position:absolute;top:45%;z-index:5;width:40px;height:40px;border-radius:50%;
+  border:0;background:#fff;color:var(--blue);font-size:1.6rem;cursor:pointer;
+  box-shadow:0 6px 16px rgba(0,0,0,.3);
+}
+#prev{left:2vw}#next{right:2vw}
+
+/* ---------- BOOKING ---------- */
+.booking{background:var(--blue);padding:40px 6vw 140px;text-align:center}
+.form{
+  max-width:520px;margin:30px auto 0;display:grid;gap:16px;text-align:left;
+  background:rgba(255,255,255,.08);padding:28px;border-radius:14px;
+}
+.form label{display:grid;gap:6px;font-size:.8rem}
+.form input,.form select{
+  padding:11px 12px;border-radius:6px;border:0;font:inherit;color:#111;
+}
+.total{font-weight:600;font-size:.9rem}
+.msg{font-size:.85rem;min-height:1.2em}
+.msg.err{color:#ffb3b3}.msg.ok{color:#b6ffcf}
+
+/* ---------- FOOTER ---------- */
+.footer{
+  background:var(--navy);text-align:center;padding:60px 6vw 30px;
+  clip-path:polygon(0 12%,50% 0,100% 12%,100% 100%,0 100%);
+  margin-top:-80px;font-size:.8rem;
+}
+.foot-row{display:flex;gap:30px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:18px;border-top:1px solid rgba(255,255,255,.2);padding-top:18px}
+.social{display:flex;gap:10px}
+.social a{width:28px;height:28px;border-radius:50%;background:#fff;color:var(--navy);display:grid;place-items:center;font-weight:800}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:860px){
+  .burger{display:flex}
+  .menu{
+    position:absolute;top:100%;left:0;right:0;background:var(--blue-deep);
+    flex-direction:column;padding:20px;gap:16px;display:none;
+  }
+  .menu.open{display:flex}
+  .hero{grid-template-columns:1fr;padding:130px 6vw 180px;text-align:left}
+  .hero-car{order:-1;max-width:380px;margin-left:auto}
+  .curve{display:none}
+  .step{width:100%;margin-bottom:24px}
+  .arrow{display:none}
+}

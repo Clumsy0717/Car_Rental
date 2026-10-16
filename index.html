@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Car_Rental | Fast & Easy Car Rental</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="nav" id="nav">
+    <a href="#home" class="logo">Car<span>_</span>Rental<small>Drive your way</small></a>
+    <button class="burger" id="burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <nav class="menu" id="menu">
+      <a href="#home" class="active">Home</a>
+      <a href="#how">How it Work</a>
+      <a href="#collection">Cars</a>
+      <a href="#booking">Booking</a>
+      <a href="#contact" class="btn-outline">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <p class="eyebrow">100% trusted car rental platform in your city</p>
+      <h1>FAST AND EASY WAY TO RENT A CAR</h1>
+      <p class="sub">Using Car_Rental makes your travel efficient &amp; affordable.</p>
+      <a href="#booking" class="btn-white">Booking Now</a>
+    </div>
+
+    <div class="hero-car" aria-hidden="true">
+      <!-- Swap this SVG for your own transparent PNG: <img src="images/car.png" alt="Car" /> -->
+      <svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4a4f5c"/><stop offset="1" stop-color="#15171d"/>
+          </linearGradient>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9fb4ff"/><stop offset="1" stop-color="#1c2a6b"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="320" cy="268" rx="270" ry="14" fill="rgba(0,0,0,.45)"/>
+        <path d="M40 200 Q46 160 100 150 L190 142 Q235 88 300 84 L400 84 Q460 88 500 138 L560 150 Q604 158 606 198 L606 226 L40 226 Z" fill="url(#body)"/>
+        <path d="M212 140 Q246 100 300 98 L346 98 L346 140 Z" fill="url(#glass)"/>
+        <path d="M360 98 L402 98 Q440 104 470 140 L360 140 Z" fill="url(#glass)"/>
+        <rect x="40" y="196" width="566" height="6" fill="#0b0c10" opacity=".6"/>
+        <rect x="570" y="170" width="34" height="14" rx="6" fill="#ffd86b"/>
+        <rect x="42" y="172" width="22" height="12" rx="5" fill="#ff4d5a"/>
+        <g class="wheel"><circle cx="165" cy="226" r="44" fill="#0b0c10"/><circle cx="165" cy="226" r="26" fill="#c9ced9"/><circle cx="165" cy="226" r="9" fill="#2b2f3a"/></g>
+        <g class="wheel"><circle cx="478" cy="226" r="44" fill="#0b0c10"/><circle cx="478" cy="226" r="26" fill="#c9ced9"/><circle cx="478" cy="226" r="9" fill="#2b2f3a"/></g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how" id="how">
+    <h2>How it works</h2>
+    <p class="quote">"Stay connected, find your next digital journey here."</p>
+
+    <div class="steps">
+      <article class="step reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+        </div>
+        <h3>Choose Location</h3>
+        <p>"Pick your location and make every trip unforgettable."</p>
+      </article>
+      <span class="curve" aria-hidden="true"></span>
+      <article class="step reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14z"/></svg>
+        </div>
+        <h3>Pick-up Date</h3>
+        <p>"Don't miss a moment. Set your date and start your journey in style."</p>
+      </article>
+      <span class="curve" aria-hidden="true"></span>
+      <article class="step reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24"><path d="M18.9 6a2 2 0 0 0-1.9-1.4H7A2 2 0 0 0 5.1 6L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8zM7 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zM5.8 11l1.2-4h10l1.2 4z"/></svg>
+        </div>
+        <h3>Book your car</h3>
+        <p>"Rent a car and enjoy freedom on the road. Just a few clicks away."</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== COLLECTION ===== -->
+  <section class="collection" id="collection">
+    <h2>Book from our collection</h2>
+    <p class="quote">"Order from our collection and elevate your experience with uniqueness."</p>
+
+    <div class="filters" id="filters">
+      <button class="chip active" data-type="all">All</button>
+      <button class="chip" data-type="Sedan">Sedan</button>
+      <button class="chip" data-type="SUV">SUV</button>
+      <button class="chip" data-type="Sport">Sport</button>
+    </div>
+
+    <div class="slider-wrap">   
+      <button class="arrow" id="prev" aria-label="Previous">&#8249;</button>
+      <div class="cards" id="cards"></div>
+      <button class="arrow" id="next" aria-label="Next">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ===== BOOKING ===== -->
+  <section class="booking" id="booking">
+    <h2>Book your ride</h2>
+    <form id="bookingForm" class="form" novalidate>
+      <label>Name<input type="text" id="name" placeholder="Your name" required /></label>
+      <label>Car<select id="carSelect" required></select></label>
+      <label>Pick-up date<input type="date" id="pickup" required /></label>
+      <label>Return date<input type="date" id="dropoff" required /></label>
+      <p class="total" id="total">Select dates to see the total.</p>
+      <button type="submit" class="btn-white">Confirm Booking</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="contact">
+    <p>Copyright &copy; <span id="year">2026</span> Car_Rental</p>
+    <div class="foot-row">
+      <a href="#" class="logo small">Car<span>_</span>Rental</a>
+      <a href="#">Privacy &amp; Policy</a>
+      <a href="#">Terms &amp; Condition</a>
+      <div class="social"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Twitter">t</a><a href="#" aria-label="Instagram">i</a></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
