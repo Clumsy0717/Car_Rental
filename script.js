@@ -49,6 +49,104 @@ function carSVG(color, accent = "#19e34a") {
 </svg>`;
 }
 
+// ===== CAR PHOTOS + AUTOMATIC BACKGROUND REMOVAL =====
+// Drop photos in the /img folder named after the car (lowercase, dashes):
+//   gt-r.webp, mustang.png, fortuner.webp, civic.jpg, vios.jpg, montero.jpg
+// If a file called  <name>-nobg.png  exists it is used as-is (already transparent).
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const EXTS = ["png", "jpg", "jpeg", "webp"];
+const loadable = url => new Promise(res => { const i = new Image(); i.onload = () => res(true); i.onerror = () => res(false); i.src = url; });
+
+function media(c) {
+  const src = c.cut || c.photo;
+  return src ? `<img class="car-img" src="${src}" alt="${c.brand} ${c.name}" />` : carSVG(c.color);
+}
+async function findPhoto(c) {
+  const s = slug(c.name);
+  for (const ext of EXTS) if (await loadable(`img/${s}-nobg.${ext}`)) return { url: `img/${s}-nobg.${ext}`, ready: true };
+  for (const ext of EXTS) if (await loadable(`img/${s}.${ext}`)) return { url: `img/${s}.${ext}`, ready: false };
+  return null;
+}
+
+// tiny IndexedDB cache so each photo is only processed once
+const dbReady = new Promise(res => {
+  try {
+    const r = indexedDB.open("car-cutouts", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("c");
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => res(null);
+  } catch { res(null); }
+});
+async function idb(mode, fn) {
+  const d = await dbReady; if (!d) return null;
+  return new Promise(res => {
+    try { const req = fn(d.transaction("c", mode).objectStore("c")); req.onsuccess = () => res(req.result); req.onerror = () => res(null); }
+    catch { res(null); }
+  });
+}
+
+const toastEl = document.getElementById("toast");
+let toastTimer;
+function toast(text, autoHide = 0) {
+  clearTimeout(toastTimer);
+  toastEl.textContent = text; toastEl.hidden = !text;
+  if (autoHide) toastTimer = setTimeout(() => (toastEl.hidden = true), autoHide);
+}
+function refreshVisuals() { renderCars(); showHero(heroIndex, false); }
+
+async function startCutouts() {
+  const found = [];
+  for (const c of cars) {
+    const p = await findPhoto(c);
+    if (!p) continue;
+    c.photo = p.url;
+    if (p.ready) c.cut = p.url;
+    found.push([c, p]);
+  }
+  if (!found.length) return;
+  refreshVisuals();
+
+  // 1) use cached cutouts where we have them
+  const pending = [];
+  for (const [c, p] of found) {
+    if (p.ready) continue;
+    try {
+      const blob = await (await fetch(p.url)).blob();
+      const key = `${p.url}|${blob.size}`;
+      const cached = await idb("readonly", s => s.get(key));
+      if (cached) c.cut = URL.createObjectURL(cached);
+      else pending.push({ c, blob, key });
+    } catch {
+      toast("Open the site through a local server (e.g. VS Code Live Server) to enable background removal.", 6000);
+      return;
+    }
+  }
+  refreshVisuals();
+  if (!pending.length) return;
+
+  // 2) remove backgrounds for new photos (runs locally in the browser)
+  toast("Loading background remover… first run downloads an AI model (~40 MB).");
+  let removeBackground;
+  try {
+    ({ removeBackground } = await import("https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/+esm"));
+  } catch {
+    toast("Couldn't load the background remover (offline?). Showing original photos.", 6000);
+    return;
+  }
+  let done = 0;
+  for (const { c, blob, key } of pending) {
+    toast(`Removing background… ${done + 1}/${pending.length}  (${c.name})`);
+    try {
+      const out = await removeBackground(blob);
+      await idb("readwrite", s => s.put(out, key));
+      c.cut = URL.createObjectURL(out);
+      refreshVisuals();
+    } catch (err) { console.warn("Cutout failed for", c.name, err); }
+    done++;
+  }
+  toast("Backgrounds removed ✓", 3000);
+}
+
 // ===== NAV =====
 const nav = $("#nav"), menu = $("#menu");
 $("#burger").addEventListener("click", () => menu.classList.toggle("open"));
@@ -76,7 +174,7 @@ function showHero(i, animate = true) {
   heroIndex = (i + featured.length) % featured.length;
   const c = featured[heroIndex];
   const apply = () => {
-    heroCar.innerHTML = carSVG(c.color);
+    heroCar.innerHTML = media(c);
     $("#ghostName").textContent = c.name.toUpperCase();
     $("#ghostYear").textContent = c.year;
     $("#heroBrand").textContent = c.brand;
@@ -111,7 +209,7 @@ function renderCars() {
     <article class="card">
       <button class="heart ${liked.has(c.id) ? "on" : ""}" data-id="${c.id}" aria-label="Favorite">${liked.has(c.id) ? "♥" : "♡"}</button>
       <span class="badge">${c.brand} · ${c.type}</span>
-      <div class="thumb">${carSVG(c.color)}</div>
+      <div class="thumb">${media(c)}</div>
       <h4>${c.name}</h4>
       <div class="specs"><span>${c.stats[0][0]}</span><span>${c.stats[1][0]}</span><span>${c.stats[2][0]}</span></div>
       <div class="row">
@@ -205,3 +303,5 @@ const io = new IntersectionObserver(entries => {
 document.querySelectorAll(".reveal").forEach((el, i) => { el.style.transitionDelay = (i % 3) * 120 + "ms"; io.observe(el); });
 
 $("#year").textContent = new Date().getFullYear();
+
+startCutouts();
